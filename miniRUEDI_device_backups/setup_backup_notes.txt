@@ -7,6 +7,8 @@ Configure file backups from miniRUEDI computers to miniruedi.aquatic-research.ch
 
 On client computer:
 
+IMPORTANT: RUN THIS AS THE NORMAL USER (e.g., water) IN THE HOME DIRECTORY OF THIS USER, NOT AS root!
+
 create ssh keys on client:
 >> ssh-keygen -t ed25519
 (the suggested defaults are fine, leave passphrase empty)
@@ -32,6 +34,7 @@ Host *
 --------------------------
 
 check if ssh access from client computer to backup server works:
+(connecting the first time will ask to add key/fingerprint to known host, which should be "yes")
 >> ssh miniruedi
 --> this should connect to the backup server
 
@@ -43,8 +46,8 @@ install rdiff-backup on client machine:
 sudo apt install rdiff-backup
 
 copy backup script files / templates to client computer:
->> scp miniruedi:bkp_setup_templates_notes/backupscript.sh ./
->> scp miniruedi:bkp_setup_templates_notes/excludelist.txt ./
+>> scp miniruedi:backupdocs_svn/backupscript.sh ./
+>> scp miniruedi:backupdocs_svn/excludelist.txt ./
 
 rename the files so they are hidden (helps to avoid accidental removal or changes):
 >> mv backupscript.sh .backupscript.sh
