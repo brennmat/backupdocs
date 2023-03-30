@@ -1,6 +1,17 @@
 Configure file backups from miniRUEDI computers to miniruedi.aquatic-research.ch server
 =======================================================================================
 
+Preliminary notes:
+* These files are used to backup files from miniRUEDI computers to miniruedi.aquatic-research.ch.
+
+* The files are managed at http://github.com/brennmat/backupdocs
+
+* The whole backup approach is:
+	(1) Primary backup: miniRUEDI computer(s) send their data file backups to miniruedi.aquatic-research.ch
+	(2) Secondary backup: Eawag pulls in the files from miniruedi.aquatic-research.ch for archiving within the Eawag IT infrastructure
+
+
+Setting up the primary backup:
 
 1. Set up ssh access
 --------------------
