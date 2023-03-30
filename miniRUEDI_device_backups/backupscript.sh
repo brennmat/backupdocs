@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # adjust only this (everything else should not need any modifications)
-DEVICENAME="xyzRUEDI"
+DEVICENAME="xxxyyyzzzRUEDI"
 
 # copy (new) files to backup server:
 rdiff-backup --exclude-globbing-filelist .excludelist.txt ~/ miniruedi::/home/debian/device_backups/$DEVICENAME
