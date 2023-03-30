@@ -4,7 +4,7 @@
 DEVICENAME="xyzRUEDI"
 
 # copy (new) files to backup server:
-rdiff-backup --exclude-globbing-filelist .excludelist.txt ~/ miniruedi::/home/debian/device_backups/$DEVICE_NAME
+rdiff-backup --exclude-globbing-filelist .excludelist.txt ~/ miniruedi::/home/debian/device_backups/$DEVICENAME
 
 # add time stamp to backup
 BASENAME="${DEVICENAME}_last_backup_at_"
