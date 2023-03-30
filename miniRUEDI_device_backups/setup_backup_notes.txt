@@ -18,20 +18,20 @@ Setting up the primary backup:
 
 On client computer:
 
-IMPORTANT: RUN THIS AS THE NORMAL USER (e.g., water) IN THE HOME DIRECTORY OF THIS USER, NOT AS root!
+*** IMPORTANT: RUN THIS AS THE NORMAL USER (e.g., water) IN THE HOME DIRECTORY OF THIS USER, NOT AS root! ***
 
-create ssh keys on client:
+Create ssh keys on client:
 >> ssh-keygen -t ed25519
 (the suggested defaults are fine, leave passphrase empty)
 
-copy contents of .ssh/id_ed25519.pub to .ssh/authorized_keys on backup server (will have to use a machine that is already configured to access the backup server)
+Copy contents of .ssh/id_ed25519.pub to .ssh/authorized_keys on backup server (will have to use a machine that is already configured to access the backup server)
 on backup server:
-nano .ssh/authorized_keys
+>> nano .ssh/authorized_keys
 --> add (copy/paste) the public key from the client
 
-set up .ssh/config
+Set up .ssh/config
 >> nano .ssh/config
-Enter the following config:
+enter the following config:
 --------------------------
 Host miniruedi
 	User debian
@@ -44,7 +44,7 @@ Host *
 	ForwardAgent yes
 --------------------------
 
-check if ssh access from client computer to backup server works:
+Check if ssh access from client computer to backup server works:
 (connecting the first time will ask to add key/fingerprint to known host, which should be "yes")
 >> ssh miniruedi
 --> this should connect to the backup server
@@ -53,33 +53,16 @@ check if ssh access from client computer to backup server works:
 2. Set up the backup
 --------------------
 
-install rdiff-backup on client machine:
+Install rdiff-backup on client machine:
 sudo apt install rdiff-backup
 
-copy backup script files / templates to client computer:
->> scp miniruedi:backupdocs_svn/backupscript.sh ./
->> scp miniruedi:backupdocs_svn/excludelist.txt ./
+Copy backup script files / templates to client computer:
+>> ssh miniruedi 'cat backupdocs_svn/backupscript.sh' > ~/.backupscript.sh && chmod +x .backupscript.sh 
+>> ssh miniruedi 'cat backupdocs_svn/excludelist.txt' > ~/.excludelist.txt
 
-rename the files so they are hidden (helps to avoid accidental removal or changes):
->> mv backupscript.sh .backupscript.sh
->> mv excludelist.txt .excludelist.txt
-
-make sure the backup script is executable:
->> chmod +x .backupscript.sh 
-
-adjust miniRUEDI name in destination path for backups in the .backupscript.sh file.
->> nano .backupscript.sh
---> change miniRUEDI name in destination path
-
-TO DO!! set up anacron for daily execution of the backup script.
-https://www.thomas-krenn.com/de/wiki/Anacron
-
-
-
-CRONTAB ENTRY WILL WORK IF COMPUTER IS DOWN AT THE RUNTIME OF THE BACKUP JOB:
-set up cron job on client machine (see also www.crontab.guru).
-For example:
+Set up cron job on client machine (see also www.crontab.guru). For example, to run 1 minute after midnight and at rebboot (if machine was turned off):
 >> crontab -e   <--- don't use sudo!
+--------------------------------------
 1 0 * * * /home/water/.backupscript.sh
-
-make sure anacron is installed on client machine (so cronjob will be executed if/after the machine was off at the time specified for the backupsript in crontab).
+@reboot /home/water/.backupscript.sh
+--------------------------------------
