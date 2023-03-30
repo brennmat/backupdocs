@@ -1,0 +1,71 @@
+Configure file backups from miniRUEDI computers to miniruedi.aquatic-research.ch server
+=======================================================================================
+
+
+1. Set up ssh access
+--------------------
+
+On client computer:
+
+create ssh keys on client:
+>> ssh-keygen -t ed25519
+(the suggested defaults are fine, leave passphrase empty)
+
+copy contents of .ssh/id_ed25519.pub to .ssh/authorized_keys on backup server (will have to use a machine that is already configured to access the backup server)
+on backup server:
+nano .ssh/authorized_keys
+--> add (copy/paste) the public key from the client
+
+set up .ssh/config
+>> nano .ssh/config
+Enter the following config:
+--------------------------
+Host miniruedi
+	User debian
+	Hostname miniruedi.aquatic-research.ch
+	IdentityFile ~/.ssh/id_ed25519
+	IdentitiesOnly yes
+
+Host *
+	AddKeysToAgent yes
+	ForwardAgent yes
+--------------------------
+
+check if ssh access from client computer to backup server works:
+>> ssh miniruedi
+--> this should connect to the backup server
+
+
+2. Set up the backup
+--------------------
+
+install rdiff-backup on client machine:
+sudo apt install rdiff-backup
+
+copy backup script files / templates to client computer:
+>> scp miniruedi:bkp_setup_templates_notes/backupscript.sh ./
+>> scp miniruedi:bkp_setup_templates_notes/excludelist.txt ./
+
+rename the files so they are hidden (helps to avoid accidental removal or changes):
+>> mv backupscript.sh .backupscript.sh
+>> mv excludelist.txt .excludelist.txt
+
+make sure the backup script is executable:
+>> chmod +x .backupscript.sh 
+
+adjust miniRUEDI name in destination path for backups in the .backupscript.sh file.
+>> nano .backupscript.sh
+--> change miniRUEDI name in destination path
+
+TO DO!! set up anacron for daily execution of the backup script.
+https://www.thomas-krenn.com/de/wiki/Anacron
+
+
+
+CRONTAB ENTRY WILL WORK IF COMPUTER IS DOWN AT THE RUNTIME OF THE BACKUP JOB:
+set up cron job on client machine (see also www.crontab.guru).
+For example:
+>> crontab -e   <--- don't use sudo!
+1 0 * * * /home/water/.backupscript.sh
+
+make sure anacron is installed on client machine (so cronjob will be executed if/after the machine was off at the time specified for the backupsript in crontab).
