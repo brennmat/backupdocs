@@ -18,7 +18,7 @@ Setting up the primary backup:
 
 On client computer:
 
-*** IMPORTANT: RUN THIS AS THE NORMAL USER (e.g., water) IN THE HOME DIRECTORY OF THIS USER, NOT AS root! ***
+*** IMPORTANT: RUN THIS AS THE NORMAL USER (e.g., water or ruedi) IN THE HOME DIRECTORY OF THIS USER, NOT AS root! ***
 
 Create ssh keys on client:
 >> ssh-keygen -t ed25519
@@ -63,6 +63,8 @@ Copy backup script files / templates to client computer:
 Set up cron job on client machine (see also www.crontab.guru). For example, to run 1 minute after midnight and at rebboot (if machine was turned off):
 >> crontab -e   <--- don't use sudo!
 --------------------------------------
-1 0 * * * /home/water/.backupscript.sh
-@reboot /home/water/.backupscript.sh
+1 0 * * * /home/<user>/.backupscript.sh
+@reboot /home/<user>/.backupscript.sh
 --------------------------------------
+
+where <user> = water, ruedi, etc.
