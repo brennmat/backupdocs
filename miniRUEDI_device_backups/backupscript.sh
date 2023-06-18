@@ -9,5 +9,5 @@ rdiff-backup --exclude-globbing-filelist .excludelist.txt ~/ miniruedi::/home/de
 # add time stamp to backup
 BASENAME="${DEVICENAME}_last_backup_at_"
 ssh miniruedi "rm device_backups/${BASENAME}*"
-TIMESTAMP=`date +"%F_%T"`
+TIMESTAMP=`date --utc  +"%F_%T_UTC"`
 ssh miniruedi "touch device_backups/${BASENAME}${TIMESTAMP}"
