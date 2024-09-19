@@ -3,6 +3,9 @@
 # get hostname:
 DEVICENAME=`hostname`
 
+# remove very old backups from server:
+rdiff-backup --force --remove-older-than 45D miniruedi::/home/debian/device_backups/$DEVICENAME
+
 # copy (new) files to backup server:
 rdiff-backup --exclude-globbing-filelist .excludelist.txt ~/ miniruedi::/home/debian/device_backups/$DEVICENAME
 
