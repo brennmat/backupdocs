@@ -57,8 +57,8 @@ Install rdiff-backup on client machine:
 sudo apt install rdiff-backup
 
 Copy backup script files / templates to client computer:
->> ssh miniruedi 'backupdocs.git/miniRUEDI_device_backups/backupscript.sh' > ~/.backupscript.sh && chmod +x .backupscript.sh 
->> ssh miniruedi 'backupdocs.git/miniRUEDI_device_backups/excludelist.txt' > ~/.excludelist.txt
+>> ssh miniruedi cat backupdocs.git/miniRUEDI_device_backups/backupscript.sh > ~/.backupscript.sh && chmod +x .backupscript.sh 
+>> ssh miniruedi cat backupdocs.git/miniRUEDI_device_backups/excludelist.txt > ~/.excludelist.txt
 
 Set up cron job on client machine (see also www.crontab.guru). For example, to run 1 minute after midnight and at rebboot (if machine was turned off):
 >> crontab -e   <--- don't use sudo!
